@@ -9,8 +9,7 @@ import java.util.Date;
 import java.util.Properties;
 
 /**
- * 输出日志类
- * @author 侠名
+ * 输出日志
  *
  */
 public class Log{

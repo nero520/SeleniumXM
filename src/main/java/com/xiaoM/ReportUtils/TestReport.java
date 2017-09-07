@@ -88,6 +88,8 @@ public class TestReport implements IReporter {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					test2.log(status, TestListener.failMessageList.get(0));  //添加自定义报错 
+					TestListener.failMessageList.remove(0);
 					test2.log(status, result.getThrowable()); //testng捕抓报错 	
 					break;
 				}

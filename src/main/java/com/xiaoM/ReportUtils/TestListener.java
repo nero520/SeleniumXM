@@ -24,6 +24,7 @@ public class TestListener  extends TestListenerAdapter{
 	public static Map<String, Object> map = new HashMap<String, Object>();
 	public static List<String> screenMessageList=new ArrayList<String>();
 	public static List<String> runMessageList=new ArrayList<String>();
+	public static List<String> failMessageList=new ArrayList<String>();
 	public static String OS;
 	public static String ProjectPath;//工程路径
 	public static  String TestCase;//测试用例所在的表
@@ -58,7 +59,7 @@ public class TestListener  extends TestListenerAdapter{
 	
 	@Override
 	public void onTestStart(ITestResult  tr){
-		log.info("测试用例:"+tr.getParameters()[1].toString()+"---start");
+		log.info("测试用例:"+tr.getParameters()[1].toString()+"---Start");
 	}
 	
 	@Override
@@ -69,11 +70,15 @@ public class TestListener  extends TestListenerAdapter{
 		screenShot.setscreenName(CaseName);
 		screenShot.takeScreenshot();
 		driver.quit();
+		log.error("测试用例:"+tr.getParameters()[1].toString()+"---End");
+		log.info("--------------------------------------");
 	}
 	
 	@Override
 	public void onTestSuccess(ITestResult tr) {
 		WebDriver driver = Run.driver;
 		driver.quit();
+		log.info("测试用例:"+tr.getParameters()[1].toString()+"---End");
+		
 	}
 }

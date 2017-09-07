@@ -18,7 +18,7 @@ public class ExecuteScript  {
 	 * @throws ClassNotFoundException 
 	 * @throws InstantiationException 
 	 */
-	public Object runScript(String ClassName,String MethodName){
+	public Object runScript(String ClassName,String MethodName,String Steps){
 		Object result = null;
 		try {
 			File file=new File(TestListener.ProjectPath+"/src/main/java");//类路径(包文件上一层)  
@@ -59,21 +59,28 @@ public class ExecuteScript  {
 				result = cls.getMethod(MethodName).invoke(obj);
 			}	
 		} catch (IllegalArgumentException e) {
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
-			return result;
 		} catch (SecurityException e) {
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {	
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (InstantiationException e) {
+			TestListener.failMessageList.add("【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		}
 		return result;	
