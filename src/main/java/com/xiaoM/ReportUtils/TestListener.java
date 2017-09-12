@@ -1,5 +1,6 @@
 package com.xiaoM.ReportUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -46,7 +47,7 @@ public class TestListener  extends TestListenerAdapter{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		ProjectPath = pp.getProperty("WORKSPAC_PATH");
+		ProjectPath = new File(System.getProperty("user.dir")).getPath();// 工程根目录
 		TestCase = pp.getProperty("TESTCASE");
 		CasePath = ProjectPath +"/testCase/"+ TestCase+".xlsx";
 		//获取测试执行用例

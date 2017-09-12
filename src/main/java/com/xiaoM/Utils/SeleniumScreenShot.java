@@ -39,8 +39,8 @@ public class SeleniumScreenShot{
 		File dir = new File("test-output/snapshot");
 		if (!dir.exists()){
 			dir.mkdirs();
-			}
-		String path = TestListener.ProjectPath+"/test-output/snapshot/"+screenName;
+		}
+		String path = "./snapshot/"+screenName;
 		TestListener.screenMessageList.add(path);
 		String screenPath = dir.getAbsolutePath() + "/" + screenName;
 		takeScreenshot(screenPath);
