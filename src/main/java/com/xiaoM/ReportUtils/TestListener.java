@@ -26,10 +26,14 @@ public class TestListener  extends TestListenerAdapter{
 	public static List<String> screenMessageList=new ArrayList<String>();
 	public static List<String> runMessageList=new ArrayList<String>();
 	public static List<String> failMessageList=new ArrayList<String>();
+	public static List<Long> failRuntime=new ArrayList<Long>();
+	public static List<Long> SuccessRuntime=new ArrayList<Long>();
 	public static String OS;
 	public static String ProjectPath;//工程路径
 	public static  String TestCase;//测试用例所在的表
 	public static String CasePath;
+	public static long StartTime;
+	public static long EndTime;
 	//配置初始化
 	static{	
 		//获取操作系统
@@ -60,6 +64,7 @@ public class TestListener  extends TestListenerAdapter{
 	
 	@Override
 	public void onTestStart(ITestResult  tr){
+		StartTime = System.currentTimeMillis();
 		log.info("测试用例:"+tr.getParameters()[1].toString()+"---Start");
 	}
 	
@@ -72,6 +77,9 @@ public class TestListener  extends TestListenerAdapter{
 		screenShot.takeScreenshot();
 		driver.quit();
 		log.error("测试用例:"+tr.getParameters()[1].toString()+"---End");
+		EndTime = System.currentTimeMillis();
+		failRuntime.add(StartTime);
+		failRuntime.add(EndTime);
 		log.info("--------------------------------------");
 	}
 	
@@ -80,6 +88,10 @@ public class TestListener  extends TestListenerAdapter{
 		WebDriver driver = Run.driver;
 		driver.quit();
 		log.info("测试用例:"+tr.getParameters()[1].toString()+"---End");
+		EndTime = System.currentTimeMillis();
+		SuccessRuntime.add(StartTime);
+		SuccessRuntime.add(EndTime);
+		log.info("--------------------------------------");
 		
 	}
 }

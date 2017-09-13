@@ -71,8 +71,10 @@ public class TestReport implements IReporter {
 					TestListener.runMessageList.remove(0);
 					ExtentTest test = extent.createTest(caseName.split("::")[1]);
 					test.assignCategory(caseName.split("::")[0]);
-					test.getModel().setStartTime(getTime(result.getStartMillis()));
-					test.getModel().setEndTime(getTime(result.getEndMillis()));
+					test.getModel().setStartTime(getTime(TestListener.SuccessRuntime.get(0)));
+					TestListener.SuccessRuntime.remove(0);
+					test.getModel().setEndTime(getTime(TestListener.SuccessRuntime.get(0)));
+					TestListener.SuccessRuntime.remove(0);
 					test.log(status, "Test " + status.toString().toLowerCase() + "ed");
 					break;
 				case 2://失败用例
@@ -80,8 +82,10 @@ public class TestReport implements IReporter {
 					TestListener.runMessageList.remove(0);
 					ExtentTest test2 = extent.createTest(caseName2.split("::")[1]);
 					test2.assignCategory(caseName2.split("::")[0]);
-					test2.getModel().setStartTime(getTime(result.getStartMillis()));
-					test2.getModel().setEndTime(getTime(result.getEndMillis()));
+					test2.getModel().setStartTime(getTime(TestListener.failRuntime.get(0)));
+					TestListener.failRuntime.remove(0);
+					test2.getModel().setEndTime(getTime(TestListener.failRuntime.get(0)));
+					TestListener.failRuntime.remove(0);
 					try {
 						test2.fail("报错截图：",MediaEntityBuilder.createScreenCaptureFromPath(TestListener.screenMessageList.get(0)).build());
 						TestListener.screenMessageList.remove(0);
