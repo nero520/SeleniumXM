@@ -3,7 +3,7 @@
 <suite name="Suite" >
 	<listeners>
 		<listener class-name="com.xiaoM.ReportUtils.TestListener" />
-		<listener class-name="com.xiaoM.ReportUtils.TestReport" />
+		<!--<listener class-name="com.xiaoM.ReportUtils.TestReport" />-->
 	</listeners>
 	<test name="TestCase">
 		<classes>

@@ -2,13 +2,18 @@ package com.xiaoM.Utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import com.xiaoM.ReportUtils.TestListener;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class BaseDriver {
 
-	public static WebDriver setUpWebDriver(String BrowserName){
+	public  WebDriver setUpWebDriver(String BrowserName,String Version){
 		WebDriver driver = null;
 		switch (BrowserName){
 		case "Chrome" :
@@ -20,6 +25,14 @@ public class BaseDriver {
 				System.setProperty("webdriver.chrome.driver", "baseDriver/WIN/chromedriver.exe");
 				break;
 			}
+			/*DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setBrowserName(BrowserName);
+			capabilities.setBrowserName(Version);
+			try {
+				driver = new RemoteWebDriver(new URL("http://192.168.99.100:4444/wd/hub/"),capabilities.chrome());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}*/
 			driver = new ChromeDriver();
 			break;
 		case "Safari" :

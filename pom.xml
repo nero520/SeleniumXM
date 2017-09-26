@@ -3,10 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xiaoM</groupId>
-	<artifactId>seleium</artifactId>
+	<artifactId>SeleiumXM</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>xiaoM.demo</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

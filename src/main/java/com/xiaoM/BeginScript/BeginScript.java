@@ -11,14 +11,15 @@ import com.xiaoM.Utils.Run;
 public class BeginScript{
 	
 	@DataProvider
-	public String[][]TestCases() throws IOException{
+	public Object[][] TestCases() throws IOException{
 		return TestListener.RunCase;
 	}
 
 	@Test(dataProvider = "TestCases")
-	public void runCase(String BrowserName,String CaseName) throws Exception{
+	public void runCase(String c,String CaseName) throws Exception{
+		String BrowserName = "Chrome";
+		String Version = "58.2.342.42";
 		Run test = new Run();
-		TestListener.runMessageList.add(BrowserName+"::"+CaseName);
-		test.runCase(BrowserName,CaseName);
+		test.runCase(BrowserName,Version,CaseName);
 	}
 }

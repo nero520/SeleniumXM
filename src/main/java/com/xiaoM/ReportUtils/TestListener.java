@@ -25,7 +25,7 @@ public class TestListener  extends TestListenerAdapter{
 	public static Map<String, Object> map = new HashMap<String, Object>();
 	public static List<String> screenMessageList=new ArrayList<String>();
 	public static List<String> runMessageList=new ArrayList<String>();
-	public static List<String> failMessageList=new ArrayList<String>();
+	public static Map<String, String> failMessageList = new HashMap<String, String>();
 	public static List<Long> failRuntime=new ArrayList<Long>();
 	public static List<Long> SuccessRuntime=new ArrayList<Long>();
 	public static String OS;
@@ -68,30 +68,30 @@ public class TestListener  extends TestListenerAdapter{
 		log.info("测试用例:"+tr.getParameters()[1].toString()+"---Start");
 	}
 	
-	@Override
-	public void onTestFailure(ITestResult tr) {
-		WebDriver driver = Run.driver;
-		String CaseName = tr.getParameters()[1].toString();
-		SeleniumScreenShot screenShot = new SeleniumScreenShot(driver);
-		screenShot.setscreenName(CaseName);
-		screenShot.takeScreenshot();
-		driver.quit();
-		log.error("测试用例:"+tr.getParameters()[1].toString()+"---End");
-		EndTime = System.currentTimeMillis();
-		failRuntime.add(StartTime);
-		failRuntime.add(EndTime);
-		log.info("--------------------------------------");
-	}
-	
-	@Override
-	public void onTestSuccess(ITestResult tr) {
-		WebDriver driver = Run.driver;
-		driver.quit();
-		log.info("测试用例:"+tr.getParameters()[1].toString()+"---End");
-		EndTime = System.currentTimeMillis();
-		SuccessRuntime.add(StartTime);
-		SuccessRuntime.add(EndTime);
-		log.info("--------------------------------------");
-		
-	}
+//	@Override
+//	public void onTestFailure(ITestResult tr) {
+//		WebDriver driver = Run.driver;
+//		String CaseName = tr.getParameters()[1].toString();
+//		SeleniumScreenShot screenShot = new SeleniumScreenShot(driver);
+//		screenShot.setscreenName(CaseName);
+//		screenShot.takeScreenshot();
+//		driver.quit();
+//		log.error("测试用例:"+tr.getParameters()[1].toString()+"---End");
+//		EndTime = System.currentTimeMillis();
+//		failRuntime.add(StartTime);
+//		failRuntime.add(EndTime);
+//		log.info("--------------------------------------");
+//	}
+//
+//	@Override
+//	public void onTestSuccess(ITestResult tr) {
+//		WebDriver driver = Run.driver;
+//		driver.quit();
+//		log.info("测试用例:"+tr.getParameters()[1].toString()+"---End");
+//		EndTime = System.currentTimeMillis();
+//		SuccessRuntime.add(StartTime);
+//		SuccessRuntime.add(EndTime);
+//		log.info("--------------------------------------");
+//
+//	}
 }
