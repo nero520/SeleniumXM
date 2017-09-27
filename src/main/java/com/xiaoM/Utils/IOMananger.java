@@ -1,23 +1,20 @@
 package com.xiaoM.Utils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.xiaoM.ReportUtils.TestListener;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
-/**
- * IO类
- * @author XiaoM
- *
- */
 public class IOMananger {
+	//设置日期格式
+	static SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+	//获取当前日期
+	static String date=dateFormat.format(new Date()).toString();
 	/**
 	 * 读取excel
 	 * @param sheetName
@@ -64,7 +61,7 @@ public class IOMananger {
 		for(int i=1;i<Date.length;i++){
 			if(Date[i][0].equals("YES")){
 				BrowserName.add(Date[i][2]);
-				caseName.add(Date[i][4]);	
+				caseName.add(Date[i][3]);
 			}
 		}
 		String[][] runTime  = new String[caseName.size()][2];
@@ -74,7 +71,76 @@ public class IOMananger {
 		}
 		return runTime;
 	}
-
+	/**
+	 * 功能：Java读取txt文件的内容
+	 * 步骤：1：先获得文件句柄
+	 * 2：获得文件句柄当做是输入一个字节码流，需要对这个输入流进行读取
+	 * 3：读取到输入流后，需要读取生成字节流
+	 * 4：一行一行的输出。readline()。
+	 * 备注：需要考虑的是异常情况
+	 * @param filePath
+	 * @throws FileNotFoundException
+	 */
+	public static List<String> readTxtFile(String filePath) throws FileNotFoundException{
+		List<String> txt = new ArrayList<String>();
+		Scanner in = new Scanner(new File(filePath));
+		while(in.hasNext()){
+			String str=in.nextLine();
+			if(!str.isEmpty()){
+				txt.add(str.toString());
+			}
+		}
+		in.close();
+		return txt;
+	}
+	public static void DealwithRunLog(String DeviceName) {
+		String logPath = TestListener.ProjectPath+"/test-output/log/";
+		List<String> DriversLog = null;
+		try {
+			DriversLog = IOMananger.readTxtFile(logPath+"RunLog.log");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		logPath = logPath + DeviceName;
+		File destDir = new File(logPath);
+		if (!destDir.exists()) {
+			destDir.mkdirs();
+		}
+		String logDriverPath  = logPath +"/"+ DeviceName+"-"+date+".log";
+		for(String logDriver:DriversLog){
+			if(logDriver.contains(DeviceName)){
+				IOMananger.saveToFile(logDriverPath, logDriver);
+			}
+		}
+	}
+	/**
+	 * 写入数据到txt文本中
+	 * @param conent
+	 */
+	public static void saveToFile(String Path, String conent) {
+		BufferedWriter bw = null;
+		try {
+			/**
+			 * 追加文件：使用FileOutputStream，在构造FileOutputStream时，把第二个参数设为true
+			 * 清空重新写入：把第二个参数设为false
+			 */
+			FileOutputStream fo = new FileOutputStream(Path, true);
+			OutputStreamWriter ow = new OutputStreamWriter(fo);
+			bw = new BufferedWriter(ow);
+			bw.append(conent);
+			bw.newLine();
+			bw.flush();
+			bw.close();
+		} catch (Exception e) {
+			System.out.println("写入数据失败！！！");
+		} finally {
+			try {
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public static void main(String[]args) {
 		
 	}

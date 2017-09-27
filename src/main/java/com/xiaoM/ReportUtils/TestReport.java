@@ -1,11 +1,10 @@
 package com.xiaoM.ReportUtils;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.xiaoM.Utils.EnvironmentVersion;
+import com.xiaoM.Utils.IOMananger;
 import org.testng.IReporter;
 import org.testng.IResultMap;
 import org.testng.ISuite;
@@ -48,6 +47,16 @@ public class TestReport implements IReporter {
 			extent.setTestRunnerOutput(s);
 		}
 		extent.flush();
+		Set set = new HashSet();
+		List newList = new  ArrayList();
+		for (String cd:TestListener.BrowserNamelist) {
+			if(set.add(cd)){
+				newList.add(cd);
+			}
+		}
+		for(int i=0;i<newList.size();i++){
+			IOMananger.DealwithRunLog(newList.get(i).toString());
+		}
 	}  
 	private void init(String ReportName) {
 		ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER + FILE_NAME);
@@ -60,42 +69,39 @@ public class TestReport implements IReporter {
 		extent.setSystemInfo("OS", System.getProperty("os.name"));
 		extent.setSystemInfo("User Name",System.getProperty("user.name"));
 		extent.setSystemInfo("Java Version", System.getProperty("java.version"));
+		extent.setSystemInfo("Selenium Version", EnvironmentVersion.getVersionForPOM("org.seleniumhq.selenium"));
 		extent.setReportUsesManualConfiguration(true);
-	}  
+	}
 	private void buildTestNodes(IResultMap tests, Status status) {
 		if (tests.size() > 0) {
 			for (ITestResult result : tests.getAllResults()) {
 				switch (result.getStatus()) {
-				case 1://成功用例
-					String caseName = TestListener.runMessageList.get(0);
-					TestListener.runMessageList.remove(0);
-					ExtentTest test = extent.createTest(caseName.split("::")[1]);
-					test.assignCategory(caseName.split("::")[0]);
-					test.getModel().setStartTime(getTime(TestListener.SuccessRuntime.get(0)));
-					TestListener.SuccessRuntime.remove(0);
-					test.getModel().setEndTime(getTime(TestListener.SuccessRuntime.get(0)));
-					TestListener.SuccessRuntime.remove(0);
-					test.log(status, "Test " + status.toString().toLowerCase() + "ed");
-					break;
-				case 2://失败用例
-					String caseName2 = TestListener.runMessageList.get(0);
-					TestListener.runMessageList.remove(0);
-					ExtentTest test2 = extent.createTest(caseName2.split("::")[1]);
-					test2.assignCategory(caseName2.split("::")[0]);
-					test2.getModel().setStartTime(getTime(TestListener.failRuntime.get(0)));
-					TestListener.failRuntime.remove(0);
-					test2.getModel().setEndTime(getTime(TestListener.failRuntime.get(0)));
-					TestListener.failRuntime.remove(0);
-					try {
-						test2.fail("报错截图：",MediaEntityBuilder.createScreenCaptureFromPath(TestListener.screenMessageList.get(0)).build());
-						TestListener.screenMessageList.remove(0);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					test2.log(status, TestListener.failMessageList.get(0));  //添加自定义报错 
-					TestListener.failMessageList.remove(0);
-					test2.log(status, result.getThrowable()); //testng捕抓报错 	
-					break;
+					case 1://成功用例s
+						String DeviceAndCase = TestListener.runSuccessMessageList.get(0);
+						TestListener.runSuccessMessageList.remove(0);
+						ExtentTest test = extent.createTest(DeviceAndCase);
+						test.assignCategory(DeviceAndCase.split("-")[0]);
+						test.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(DeviceAndCase)));
+						test.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(DeviceAndCase)));
+						test.log(status, "Test " + status.toString().toLowerCase() + "ed");
+						break;
+					case 2://失败用例
+						String DeviceAndCase2 = TestListener.runFailMessageList.get(0);
+						TestListener.runFailMessageList.remove(0);
+						ExtentTest test2 = extent.createTest(DeviceAndCase2);
+						test2.assignCategory(DeviceAndCase2.split("-")[0]);//根据设备分类
+						test2.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(DeviceAndCase2)));
+						test2.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(DeviceAndCase2)));
+						try {
+							test2.fail("报错截图：",MediaEntityBuilder.createScreenCaptureFromPath(TestListener.screenMessageList.get(DeviceAndCase2)).build());
+							TestListener.screenMessageList.remove(0);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						test2.log(status, TestListener.failMessageList.get(DeviceAndCase2));  //添加自定义报错
+						TestListener.failMessageList.remove(0);
+						test2.log(status, result.getThrowable()); //testng捕抓报错
+						break;
 				}
 			}
 		}

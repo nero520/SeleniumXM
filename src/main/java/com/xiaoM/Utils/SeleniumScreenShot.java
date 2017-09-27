@@ -16,10 +16,12 @@ import com.xiaoM.ReportUtils.TestListener;
  */
 public class SeleniumScreenShot{
 	private WebDriver driver;
-	private String screenName;
+	private String CaseName;
+	private String BrowserVersion;
 	Log log =new Log(this.getClass());
-	public void setscreenName(String screenName){
-		this.screenName = screenName;
+	public void setScreenName(String BrowserVersion,String CaseName){
+		this.CaseName = CaseName;
+		this.BrowserVersion = BrowserVersion;
 	}
 	public SeleniumScreenShot(WebDriver driver){
 		this.driver = driver;
@@ -35,14 +37,14 @@ public class SeleniumScreenShot{
 	}
 
 	public void takeScreenshot() {
-		String screenName =this.screenName+ ".jpg";
+		String screenName =this.BrowserVersion+"-"+this.CaseName;
 		File dir = new File("test-output/snapshot");
 		if (!dir.exists()){
 			dir.mkdirs();
 		}
-		String path = "./snapshot/"+screenName;
-		TestListener.screenMessageList.add(path);
-		String screenPath = dir.getAbsolutePath() + "/" + screenName;
+		String path = "./snapshot/"+screenName+ ".jpg";
+		TestListener.screenMessageList.put(screenName,path);
+		String screenPath = dir.getAbsolutePath() + "/" + screenName+ ".jpg";
 		takeScreenshot(screenPath);
 	}
 
