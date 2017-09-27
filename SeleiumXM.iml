@@ -9,8 +9,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.dom4j:dom4j:2.0.0" level="project" />
-    <orderEntry type="library" name="Maven: jaxen:jaxen:1.1.6" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-server:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-java:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.seleniumhq.selenium:selenium-api:3.5.3" level="project" />
@@ -81,5 +79,11 @@
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.9.2" level="project" />
     <orderEntry type="library" name="Maven: org.dom4j:dom4j:2.0.0" level="project" />
     <orderEntry type="library" name="Maven: jaxen:jaxen:1.1.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.uncommons:reportng:1.1.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity:1.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: velocity:velocity-dep:1.4" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.google.inject:guice:3.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: aopalliance:aopalliance:1.0" level="project" />
   </component>
 </module>
