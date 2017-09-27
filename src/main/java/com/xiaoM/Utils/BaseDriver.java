@@ -53,7 +53,7 @@ public class BaseDriver {
 			}else{
 				switch(TestListener.OS){
 					case "MAC":
-						System.setProperty("webdriver.gecko.driver", "baseDriver/WIN/geckodriver");
+						System.setProperty("webdriver.gecko.driver", "baseDriver/OSX/geckodriver");
 						break;
 					case "WINDOWS":
 						System.setProperty("webdriver.gecko.driver", "baseDriver/WIN/geckodriver.exe");
