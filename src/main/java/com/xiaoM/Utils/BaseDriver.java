@@ -25,7 +25,7 @@ public class BaseDriver {
 		capabilities.setBrowserName(Version);
 		switch (BrowserName){
 		case "Chrome" :
-			if(TestListener.multithread.contains("True")){
+			/*if(TestListener.multithread.contains("True")){
 				try {
 					driver = new RemoteWebDriver(new URL("http://"+IP+":4444/wd/hub/"),capabilities.chrome());
 				} catch (MalformedURLException e) {
@@ -41,7 +41,8 @@ public class BaseDriver {
 						break;
 				}
 				driver =  new ChromeDriver();
-			}
+			}*/
+			driver =  new ChromeDriver();
 			break;
 		case"Firefox" :
 			if(TestListener.multithread.contains("True")){
