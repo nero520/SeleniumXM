@@ -42,6 +42,9 @@ public class BaseDriver {
 					case "WINDOWS":
 						System.setProperty("webdriver.chrome.driver", "baseDriver/WIN/chromedriver.exe");
 						break;
+					case "LINUX":
+						System.setProperty("webdriver.chrome.driver", "baseDriver/LINUX/chromedriver");
+						break;
 				}
 				driver =  new ChromeDriver();
 			}
@@ -64,6 +67,9 @@ public class BaseDriver {
 						break;
 					case "WINDOWS":
 						System.setProperty("webdriver.gecko.driver", "baseDriver/WIN/geckodriver.exe");
+						break;
+					case "LINUX":
+						System.setProperty("webdriver.gecko.driver", "baseDriver/LINUX/geckodriver");
 						break;
 				}
 				driver =  new FirefoxDriver();
@@ -88,6 +94,10 @@ public class BaseDriver {
 						break;
 					case "WINDOWS":
 						System.setProperty("webdriver.ie.driver", "baseDriver/WIN/IEDriverServer.exe");
+						break;
+					case "LINUX":
+						log.error("非Windows系统不支持 IE 浏览器自动化");
+						System.exit(0);
 						break;
 				}
 				driver = new InternetExplorerDriver();
@@ -118,6 +128,10 @@ public class BaseDriver {
 							System.exit(0);
 						}
 						break;
+					case "LINUX":
+						log.error("非Windows系统不支持 Edge 浏览器自动化");
+						System.exit(0);
+						break;
 				}
 				driver = new EdgeDriver();
 			}
@@ -136,7 +150,11 @@ public class BaseDriver {
 			}else{
 				switch(TestListener.OS) {
 					case "WINDOWS":
-						log.error("非OSX系统不支持Safari浏览器自动化");
+						log.error("非OSX系统不支持 Safari 浏览器自动化");
+						System.exit(0);
+						break;
+					case "LINUX":
+						log.error("非OSX系统不支持 Safari 浏览器自动化");
 						System.exit(0);
 						break;
 				}
