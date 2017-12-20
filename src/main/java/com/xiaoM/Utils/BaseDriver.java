@@ -1,5 +1,6 @@
 package com.xiaoM.Utils;
 
+import com.xiaoM.ReportUtils.TestListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -9,25 +10,27 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
-import com.xiaoM.ReportUtils.TestListener;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class BaseDriver {
 	Log log= new Log(this.getClass());
-	final private static String IP = TestListener.IP;
+	final private static String url = TestListener.Selenium_Gird_Address;
 
 	public  WebDriver setUpWebDriver(String BrowserName,String Version){
 		WebDriver driver = null;
 		DesiredCapabilities capabilities = new DesiredCapabilities();
 		capabilities.setBrowserName(BrowserName.toLowerCase());
 		capabilities.setVersion(Version);
-		switch (BrowserName){
-		case "Chrome" :
-			if(TestListener.multithread.contains("True")){
+		switch (BrowserName.toLowerCase()){
+		case "chrome" :
+			if(TestListener.Selenium_Gird.toLowerCase().contains("true")){
 				try {
-					driver = new RemoteWebDriver(new URL("http://"+IP+":4444/wd/hub/"),capabilities);
+					if(Version==null||Version.isEmpty()){
+						driver = new RemoteWebDriver(new URL(url),DesiredCapabilities.chrome());
+					}else{
+						driver = new RemoteWebDriver(new URL(url),capabilities);
+					}
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -43,10 +46,14 @@ public class BaseDriver {
 				driver =  new ChromeDriver();
 			}
 			break;
-		case"Firefox" :
-			if(TestListener.multithread.contains("True")){
+		case"firefox" :
+			if(TestListener.Selenium_Gird.toLowerCase().contains("true")){
 				try {
-					driver = new RemoteWebDriver(new URL("http://"+IP+":4444/wd/hub/"),capabilities);
+					if(Version==null||Version.isEmpty()){
+						driver = new RemoteWebDriver(new URL(url),DesiredCapabilities.firefox());
+					}else{
+						driver = new RemoteWebDriver(new URL(url),capabilities);
+					}
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -62,47 +69,83 @@ public class BaseDriver {
 				driver =  new FirefoxDriver();
 			}
 			break;
-		case "IE":
-			switch(TestListener.OS){
-				case "MAC":
-					log.error("非Windows系统不支持 IE 浏览器自动化");
-					System.exit(0);
-					break;
-				case "WINDOWS":
-					System.setProperty("webdriver.ie.driver", "baseDriver/WIN/IEDriverServer.exe");
-					break;
-			}
-			driver = new InternetExplorerDriver();
-			break;
-		case "Edge":
-			switch(TestListener.OS){
-				case "MAC":
-					log.error("非Windows系统不支持 Edge 浏览器自动化");
-					System.exit(0);
-					break;
-				case "WINDOWS":
-					if(System.getProperty("os.name").contains("10")){
-						System.setProperty("webdriver.edge.driver", "baseDriver/WIN/MicrosoftWebDriver.exe");
+		case "ie":
+			if(TestListener.Selenium_Gird.toLowerCase().contains("true")){
+				try {
+					if(Version==null||Version.isEmpty()){
+						driver = new RemoteWebDriver(new URL(url),DesiredCapabilities.internetExplorer());
 					}else{
-						log.error("非 Windows 10 系统不支持Edge浏览器自动化");
-						System.exit(0);
+						driver = new RemoteWebDriver(new URL(url),capabilities);
 					}
-					break;
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+			}else{
+				switch(TestListener.OS){
+					case "MAC":
+						log.error("非Windows系统不支持 IE 浏览器自动化");
+						System.exit(0);
+						break;
+					case "WINDOWS":
+						System.setProperty("webdriver.ie.driver", "baseDriver/WIN/IEDriverServer.exe");
+						break;
+				}
+				driver = new InternetExplorerDriver();
 			}
-			driver = new EdgeDriver();
 			break;
-		case "Safari" :
-			switch(TestListener.OS) {
-				case "WINDOWS":
-					log.error("非OSX系统不支持Safari浏览器自动化");
-					System.exit(0);
-					break;
+		case "edge":
+			if(TestListener.Selenium_Gird.toLowerCase().contains("true")){
+				try {
+					if(Version==null||Version.isEmpty()){
+						driver = new RemoteWebDriver(new URL(url),DesiredCapabilities.edge());
+					}else{
+						driver = new RemoteWebDriver(new URL(url),capabilities);
+					}
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+			}else{
+				switch(TestListener.OS){
+					case "MAC":
+						log.error("非Windows系统不支持 Edge 浏览器自动化");
+						System.exit(0);
+						break;
+					case "WINDOWS":
+						if(System.getProperty("os.name").contains("10")){
+							System.setProperty("webdriver.edge.driver", "baseDriver/WIN/MicrosoftWebDriver.exe");
+						}else{
+							log.error("非 Windows 10 系统不支持Edge浏览器自动化");
+							System.exit(0);
+						}
+						break;
+				}
+				driver = new EdgeDriver();
 			}
+			break;
+		case "safari" :
+			if(TestListener.Selenium_Gird.toLowerCase().contains("true")){
+				try {
+					if(Version==null||Version.isEmpty()){
+						driver = new RemoteWebDriver(new URL(url),DesiredCapabilities.chrome());
+					}else{
+						driver = new RemoteWebDriver(new URL(url),capabilities);
+					}
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				}
+			}else{
+				switch(TestListener.OS) {
+					case "WINDOWS":
+						log.error("非OSX系统不支持Safari浏览器自动化");
+						System.exit(0);
+						break;
+				}
 			/*
 			 * 1、需前往 http://www.seleniumhq.org/download/ 中下载 SafariDriver.safariextz 扩展并安装中 Safari 中
 			 * 2、在 Safari 的开发菜单中允许远程自动化
 			 */
-			driver = new SafariDriver();
+				driver = new SafariDriver();
+			}
 			break;
 		}
 		return driver;

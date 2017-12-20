@@ -1,14 +1,14 @@
 package com.xiaoM.Utils;
 
-import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import com.xiaoM.ReportUtils.TestListener;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class IOMananger {
 	//设置日期格式
@@ -56,18 +56,27 @@ public class IOMananger {
 	 */
 	public static String[][] runTime(String sheetName,String path) throws IOException{
 		String[][] Date =  readExcelDataXlsx(sheetName,path);
+		List<String> ID = new LinkedList<String>();
+		List<String> Description = new LinkedList<String>();
+		List<String> CaseName = new LinkedList<String>();
 		List<String> BrowserName = new LinkedList<String>();
-		List<String> caseName = new LinkedList<String>();
-		for(int i=1;i<Date.length;i++){
-			if(Date[i][0].equals("YES")){
-				BrowserName.add(Date[i][2]);
-				caseName.add(Date[i][3]);
+		List<String> Version = new LinkedList<String>();
+		for(int i=1;i<Date.length;i++) {
+			if (Date[i][0].equals("YES")) {
+				ID.add(Date[i][1]);
+				Description.add(Date[i][2]);
+				CaseName.add(Date[i][3]);
+				BrowserName.add(Date[i][4]);
+				Version.add(Date[i][5]);
 			}
 		}
-		String[][] runTime  = new String[caseName.size()][2];
-		for(int k =0;k<caseName.size();k++){
-			runTime[k][0]=BrowserName.get(k);
-			runTime[k][1]=caseName.get(k);
+		String[][] runTime  = new String[CaseName.size()][5];
+		for(int k =0;k<CaseName.size();k++){
+			runTime[k][0]=ID.get(k);
+			runTime[k][1]=Description.get(k);
+			runTime[k][2]=CaseName.get(k);
+			runTime[k][3]=BrowserName.get(k);
+			runTime[k][4]=Version.get(k);
 		}
 		return runTime;
 	}

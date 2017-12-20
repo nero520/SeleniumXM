@@ -1,8 +1,7 @@
 package com.xiaoM.Utils;
 
-import org.openqa.selenium.WebDriver;
-
 import com.xiaoM.ReportUtils.TestListener;
+import org.openqa.selenium.WebDriver;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,11 +9,11 @@ import java.util.Map;
 public class Run {
     Log log = new Log(this.getClass());
 
-    public void runCase(String BrowserName, String Version, String CaseName) throws Exception {
+    public void runCase(String ID,String BrowserName, String Version, String CaseName) throws Exception {
         BaseDriver base = new BaseDriver();
         Map<String, Object> map = new HashMap<String, Object>();
         WebDriver driver = base.setUpWebDriver(BrowserName, Version);
-        String BrowserVersion = BrowserName + "(" + Version + ")";
+        String BrowserVersion = Version==null||Version.isEmpty()?BrowserName+"_"+ID:BrowserName + "(" + Version + ")_"+ID;
         String[][] testStart = null;
         try {
             testStart = IOMananger.readExcelDataXlsx(CaseName, TestListener.CasePath);
@@ -60,7 +59,10 @@ public class Run {
             TestListener.RuntimeStart.put(BrowserVersion+"-"+CaseName,StartTime);
             TestListener.RuntimeEnd.put(BrowserVersion+"-"+CaseName,EndTime);
             throw e;
+        }finally {
+            if (driver!=null){
+                driver.quit();
+            }
         }
-        driver.quit();
     }
 }

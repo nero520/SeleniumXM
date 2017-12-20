@@ -19,11 +19,11 @@ public class TestListener  extends TestListenerAdapter{
 	public static List<String> runSuccessMessageList = new ArrayList<String>();
 	public static List<String> runFailMessageList = new ArrayList<String>();
 	public static List<String> BrowserNamelist = new ArrayList<String>();
-	public static String IP;
+	public static String Selenium_Gird_Address;
 	public static String OS;
-	public static String multithread;
 	public static String ProjectPath;//工程路径
-	public static  String TestCase;//测试用例所在的表
+	public static String TestCase;//测试用例所在的表
+	public static String Selenium_Gird;
 	public static String CasePath;
 	//配置初始化
 	static{	
@@ -46,8 +46,8 @@ public class TestListener  extends TestListenerAdapter{
 		}
 		ProjectPath = new File(System.getProperty("user.dir")).getPath();// 工程根目录
 		TestCase = pp.getProperty("TESTCASE");
-		multithread = pp.getProperty("MULTITHREAD");
-		IP = pp.getProperty("DOCKER_IP");
+		Selenium_Gird = pp.getProperty("SELENIUM_GRID");
+		Selenium_Gird_Address = pp.getProperty("SELENIUM_GRID_ADDRESS");
 		CasePath = ProjectPath +"/testCase/"+ TestCase+".xlsx";
 		//获取测试执行用例
 		try {
@@ -55,6 +55,7 @@ public class TestListener  extends TestListenerAdapter{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		String logPath = ProjectPath + "/test-output/log/RunLog.log";
 		File path = new File(logPath);
 		if (path.exists()) {
