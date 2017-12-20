@@ -1,23 +1,22 @@
 package com.xiaoM.Utils;
 
-import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 /**
- * 解析操作核心类
  * @author XiaoM
- *
  */
 public class ElementAction{
 
 	/**
 	 * 等待元素出现
 	 * @param by
-	 * @param timeout
+	 * @param timeOut
 	 * @return
 	 */
 	public static WebElement waitForElement(WebDriver driver,By by,int timeOut){
@@ -30,9 +29,12 @@ public class ElementAction{
 				});
 		return webElement;
 	}
+
 	/**
 	 * 查找一组元素
-	 * @param locator 元素定位信息
+	 * @param driver
+	 * @param by
+	 * @param timeOut
 	 * @return
 	 */
 	public static List<WebElement>  waitForElements(WebDriver driver,By by,int timeOut){
