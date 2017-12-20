@@ -1,24 +1,13 @@
 package com.xiaoM.ReportUtils;
 
+import com.xiaoM.Utils.IOMananger;
+import org.testng.TestListenerAdapter;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
-import org.openqa.selenium.WebDriver;
-import org.testng.ITestResult;
-import org.testng.TestListenerAdapter;
-
-import com.xiaoM.Utils.IOMananger;
-import com.xiaoM.Utils.Log;
-import com.xiaoM.Utils.Run;
-import com.xiaoM.Utils.SeleniumScreenShot;
+import java.util.*;
 
 public class TestListener  extends TestListenerAdapter{
 
@@ -44,6 +33,8 @@ public class TestListener  extends TestListenerAdapter{
 			OS = "MAC";
 		}else if(os.contains("Windows")){
 			OS = "WINDOWS";
+		}else if(os.contains("Linux")){
+			OS = "LINUX";
 		}
 		//读取配置文件
 		Properties pp = new Properties();

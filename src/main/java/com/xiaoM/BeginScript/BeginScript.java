@@ -1,13 +1,12 @@
 package com.xiaoM.BeginScript;
 
-import java.io.IOException;
-
+import com.xiaoM.ReportUtils.TestListener;
 import com.xiaoM.Utils.Log;
+import com.xiaoM.Utils.Run;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.xiaoM.ReportUtils.TestListener;
-import com.xiaoM.Utils.Run;
+import java.io.IOException;
 
 public class BeginScript{
 	Log log= new Log(this.getClass());
@@ -19,7 +18,7 @@ public class BeginScript{
 	@Test(dataProvider = "TestCases")
 	public void runCase(String Description,String CaseName) throws Exception{
 		String BrowserName = "Chrome";
-		String Version = "55.3.0";
+		String Version = "58.0.3029.81";
 		String BrowserVersion = BrowserName+"("+Version+")";
 	    log.info(BrowserVersion + ": "+ Description);
 		TestListener.BrowserNamelist.add(BrowserVersion);

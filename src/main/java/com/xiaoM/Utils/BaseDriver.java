@@ -21,13 +21,13 @@ public class BaseDriver {
 	public  WebDriver setUpWebDriver(String BrowserName,String Version){
 		WebDriver driver = null;
 		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setBrowserName(BrowserName);
-		capabilities.setBrowserName(Version);
+		capabilities.setBrowserName(BrowserName.toLowerCase());
+		capabilities.setVersion(Version);
 		switch (BrowserName){
 		case "Chrome" :
 			if(TestListener.multithread.contains("True")){
 				try {
-					driver = new RemoteWebDriver(new URL("http://"+IP+":4444/wd/hub/"),capabilities.chrome());
+					driver = new RemoteWebDriver(new URL("http://"+IP+":4444/wd/hub/"),capabilities);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
@@ -46,7 +46,7 @@ public class BaseDriver {
 		case"Firefox" :
 			if(TestListener.multithread.contains("True")){
 				try {
-					driver = new RemoteWebDriver(new URL("http://"+IP+":4444/wd/hub/"),capabilities.firefox());
+					driver = new RemoteWebDriver(new URL("http://"+IP+":4444/wd/hub/"),capabilities);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				}
