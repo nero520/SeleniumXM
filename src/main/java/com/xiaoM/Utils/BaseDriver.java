@@ -140,7 +140,7 @@ public class BaseDriver {
 			if(TestListener.Selenium_Gird.toLowerCase().contains("true")){
 				try {
 					if(Version==null||Version.isEmpty()){
-						driver = new RemoteWebDriver(new URL(url),DesiredCapabilities.chrome());
+						driver = new RemoteWebDriver(new URL(url),DesiredCapabilities.safari());
 					}else{
 						driver = new RemoteWebDriver(new URL(url),capabilities);
 					}
