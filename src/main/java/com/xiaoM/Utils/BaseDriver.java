@@ -3,6 +3,7 @@ package com.xiaoM.Utils;
 import com.xiaoM.ReportUtils.TestListener;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -164,6 +165,17 @@ public class BaseDriver {
 			 */
 				driver = new SafariDriver();
 			}
+			break;
+		case "other":
+			String Browser_Path = TestListener.Browser_Path;
+			if(Browser_Path.isEmpty()||Browser_Path.equals("")){
+				log.error("请在 config.properties 中配置 BROWSER_PATH 的值");
+				System.exit(0);
+			}
+			System.setProperty("webdriver.chrome.driver", "baseDriver/WIN/chromedriver.exe");
+			ChromeOptions options = new ChromeOptions();
+			options.setBinary(TestListener.Browser_Path);
+			driver = new ChromeDriver(options);
 			break;
 		}
 		return driver;

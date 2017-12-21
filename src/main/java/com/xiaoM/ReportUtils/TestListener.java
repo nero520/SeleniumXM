@@ -25,6 +25,7 @@ public class TestListener  extends TestListenerAdapter{
 	public static String TestCase;//测试用例所在的表
 	public static String Selenium_Gird;
 	public static String CasePath;
+	public static String Browser_Path;
 	//配置初始化
 	static{	
 		//获取操作系统
@@ -49,6 +50,7 @@ public class TestListener  extends TestListenerAdapter{
 		Selenium_Gird = pp.getProperty("SELENIUM_GRID");
 		Selenium_Gird_Address = pp.getProperty("SELENIUM_GRID_ADDRESS");
 		CasePath = ProjectPath +"/testCase/"+ TestCase+".xlsx";
+		Browser_Path = pp.getProperty("BROWSER_PATH");
 		//获取测试执行用例
 		try {
 			RunCase = IOMananger.runTime("TestCases", CasePath);
