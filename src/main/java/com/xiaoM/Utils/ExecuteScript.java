@@ -17,20 +17,11 @@ public class ExecuteScript {
 	public ExecuteScript(WebDriver driver) {
 		this.driver = driver;
 	}
-
-	/**
-	 * 执行指定的方法
-	 * @param MethodName 方法名
-	 * @throws MalformedURLException 
-	 * @throws ClassNotFoundException 
-	 * @throws InstantiationException 
-	 */
-	public Object runScript(String ClassName,String MethodName,Map<String, Object> map,String Steps,String BrowserNameAndVersion){
+	public Object runScript(String ClassName,String MethodName,Map<String, Object> map,String Steps,String TestCategory){
 		Object result = null;
 		try {
 			File file=new File(TestListener.ProjectPath+"/src/main/java");//类路径(包文件上一层)
-			URL url=file.toURI().toURL();  
-			@SuppressWarnings("resource")
+			URL url=file.toURI().toURL();
 			ClassLoader loader = new URLClassLoader(new URL[]{url});//创建类加载器   
 			Class<?> cls = loader.loadClass("com.xiaoM.PageObject."+ClassName);//加载指定类，注意一定要带上类的包名  
 			Object obj = cls.newInstance();//初始化一个实例  
@@ -92,28 +83,28 @@ public class ExecuteScript {
 				result = cls.getMethod(MethodName).invoke(obj);
 			}
 		} catch (IllegalArgumentException e) {
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {	
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			TestListener.failMessageList.put(BrowserNameAndVersion,"【出错步骤】 > "+Steps);
+			TestListener.failMessageList.put(TestCategory,"【出错步骤】 > "+Steps);
 			e.printStackTrace();
 		}
 		return result;	

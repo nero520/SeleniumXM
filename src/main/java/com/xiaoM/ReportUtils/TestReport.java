@@ -1,34 +1,37 @@
 package com.xiaoM.ReportUtils;
 
-import java.io.IOException;
-import java.util.*;
-
-import com.xiaoM.Utils.EnvironmentVersion;
-import com.xiaoM.Utils.IOMananger;
-import org.testng.IReporter;
-import org.testng.IResultMap;
-import org.testng.ISuite;
-import org.testng.ISuiteResult;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.xml.XmlSuite;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import com.xiaoM.Utils.EnvironmentVersion;
+import com.xiaoM.Utils.IOMananger;
+import org.testng.*;
+import org.testng.xml.XmlSuite;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class TestReport implements IReporter {
-
+	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd（HH.mm.ss）");
+	static String date = dateFormat.format(new Date());
 	private static final String OUTPUT_FOLDER = "test-output/";
-	private static final String FILE_NAME = "TestReport.html";
+	private static final String FILE_NAME = "TestReport "+date+".html";
 	private ExtentReports extent;
 
+
+
 	@Override
-	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {     
+	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
+		for(int i = 0; i<TestListener.BrowserVersion.size(); i++){ //处理日志文件
+			IOMananger.DealwithRunLog(TestListener.BrowserVersion.get(i));
+		}
 		init(TestListener.TestCase);//html文件配置
 		for (ISuite suite : suites) {
 			Map<String, ISuiteResult>  result = suite.getResults(); 
@@ -47,16 +50,6 @@ public class TestReport implements IReporter {
 			extent.setTestRunnerOutput(s);
 		}
 		extent.flush();
-		Set set = new HashSet();
-		List newList = new  ArrayList();
-		for (String cd:TestListener.BrowserNamelist) {
-			if(set.add(cd)){
-				newList.add(cd);
-			}
-		}
-		for(int i=0;i<newList.size();i++){
-			IOMananger.DealwithRunLog(newList.get(i).toString());
-		}
 	}  
 	private void init(String ReportName) {
 		ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(OUTPUT_FOLDER + FILE_NAME);
@@ -75,33 +68,39 @@ public class TestReport implements IReporter {
 	private void buildTestNodes(IResultMap tests, Status status) {
 		if (tests.size() > 0) {
 			for (ITestResult result : tests.getAllResults()) {
+				String ID = result.getParameters()[0].toString();
+				String CaseName = result.getParameters()[2].toString();
+				String Version = result.getParameters()[4].toString();
+				String BrowserName = Version.equals("")||Version.isEmpty()?result.getParameters()[3].toString():result.getParameters()[3]+"("+Version+")";
+				String TestCategory = ID+"_"+ CaseName +"_"+ BrowserName;
+				ExtentTest test = extent.createTest(TestCategory);
+				test.assignCategory(BrowserName);//根据设备分类
 				switch (result.getStatus()) {
 					case 1://成功用例s
-						String DeviceAndCase = TestListener.runSuccessMessageList.get(0);
-						TestListener.runSuccessMessageList.remove(0);
-						ExtentTest test = extent.createTest(DeviceAndCase);
-						test.assignCategory(DeviceAndCase.split("-")[0]);
-						test.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(DeviceAndCase)));
-						test.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(DeviceAndCase)));
+						test.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(TestCategory)));
+						test.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(TestCategory)));
 						test.log(status, "Test " + status.toString().toLowerCase() + "ed");
+						test.log(status,TestListener.logList.get(TestCategory));//测试日志
+
 						break;
 					case 2://失败用例
-						String DeviceAndCase2 = TestListener.runFailMessageList.get(0);
-						TestListener.runFailMessageList.remove(0);
-						ExtentTest test2 = extent.createTest(DeviceAndCase2);
-						test2.assignCategory(DeviceAndCase2.split("-")[0]);//根据设备分类
-						test2.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(DeviceAndCase2)));
-						test2.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(DeviceAndCase2)));
-						try {
-							test2.fail("报错截图：",MediaEntityBuilder.createScreenCaptureFromPath(TestListener.screenMessageList.get(DeviceAndCase2)).build());
-							TestListener.screenMessageList.remove(0);
-						} catch (IOException e) {
-							e.printStackTrace();
+						if(TestListener.screenMessageList.containsKey(TestCategory)){
+							test.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(TestCategory)));
+							test.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(TestCategory)));
+							try {
+								test.fail("报错截图：", MediaEntityBuilder.createScreenCaptureFromPath(TestListener.screenMessageList.get(TestCategory)).build());
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							test.log(status, TestListener.failMessageList.get(TestCategory));  //添加自定义报错
+							test.log(status,TestListener.logList.get(TestCategory));//测试日志
+							test.log(status, TestListener.failThrowable.get(TestCategory)); //testng捕抓报错
+							break;
+						}else{
+							test.log(status,TestListener.logList.get(TestCategory));//测试日志
+							test.log(status,TestListener.failThrowable.get(TestCategory)); //testng捕抓报错
+							break;
 						}
-						test2.log(status, TestListener.failMessageList.get(DeviceAndCase2));  //添加自定义报错
-						TestListener.failMessageList.remove(0);
-						test2.log(status, result.getThrowable()); //testng捕抓报错
-						break;
 				}
 			}
 		}

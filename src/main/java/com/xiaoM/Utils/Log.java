@@ -27,7 +27,8 @@ public class Log {
 	public Log(Class<?> clazz){
 		this.clazz=clazz;
 		//Logger.getLogger的方法是调用的是LogManager.getLogger()方法，所以这两个方法都是返回logger
-		this.logger=Logger.getLogger(this.clazz);
+		/*this.logger=Logger.getLogger(this.clazz);*/
+		this.logger=Logger.getLogger("");//不包含包名输出日志
 		Log.initlog4j();
 	}
 	//初始化log4j，设置log4j的配置文件log4j.Properties

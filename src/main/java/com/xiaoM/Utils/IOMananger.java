@@ -12,9 +12,9 @@ import java.util.*;
 
 public class IOMananger {
 	//设置日期格式
-	static SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+	static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	//获取当前日期
-	static String date=dateFormat.format(new Date()).toString();
+	static String date = dateFormat.format(new Date());
 	/**
 	 * 读取excel
 	 * @param sheetName
@@ -88,39 +88,46 @@ public class IOMananger {
 	 * 4：一行一行的输出。readline()。
 	 * 备注：需要考虑的是异常情况
 	 * @param filePath
-	 * @throws FileNotFoundException
 	 */
-	public static List<String> readTxtFile(String filePath) throws FileNotFoundException{
-		List<String> txt = new ArrayList<String>();
-		Scanner in = new Scanner(new File(filePath));
-		while(in.hasNext()){
-			String str=in.nextLine();
-			if(!str.isEmpty()){
-				txt.add(str.toString());
-			}
-		}
-		in.close();
-		return txt;
+	public static List<String> readTxtFile(String filePath) {
+        List<String> txt = null;
+        Scanner in = null;
+        try {
+            txt = new ArrayList<String>();
+            in = new Scanner(new File(filePath));
+            while(in.hasNext()){
+                String str=in.nextLine();
+                if(!str.isEmpty()){
+                    txt.add(str.toString());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            if (in!=null){
+                in.close();
+            }
+        }
+        return txt;
 	}
-	public static void DealwithRunLog(String DeviceName) {
-		String logPath = TestListener.ProjectPath+"/test-output/log/";
-		List<String> DriversLog = null;
-		try {
-			DriversLog = IOMananger.readTxtFile(logPath+"RunLog.log");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		logPath = logPath + DeviceName;
+	public static void DealwithRunLog(String TestCategory) {
+		String logPath = TestListener.ProjectPath+"/test-output/log/runlogs/"+date;
+		List<String> BrowserLog = IOMananger.readTxtFile(TestListener.ProjectPath+"/test-output/log/RunLog.log");
 		File destDir = new File(logPath);
 		if (!destDir.exists()) {
 			destDir.mkdirs();
 		}
-		String logDriverPath  = logPath +"/"+ DeviceName+"-"+date+".log";
-		for(String logDriver:DriversLog){
-			if(logDriver.contains(DeviceName)){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd(HH.mm.ss)");
+		String date = dateFormat.format(System.currentTimeMillis());
+		String logDriverPath  = logPath +"/"+ TestCategory+"-"+date+".log";
+		StringBuilder sb = new StringBuilder();
+		for(String logDriver:BrowserLog){
+			if(logDriver.contains(TestCategory)){
+				sb.append(logDriver +"\r\n");
 				IOMananger.saveToFile(logDriverPath, logDriver);
 			}
 		}
+		TestListener.logList.put(TestCategory,"<spen>运行日志：</spen></br><pre>"+sb.toString()+"</pre>");
 	}
 	/**
 	 * 写入数据到txt文本中
@@ -142,6 +149,7 @@ public class IOMananger {
 			bw.close();
 		} catch (Exception e) {
 			System.out.println("写入数据失败！！！");
+			e.printStackTrace();
 		} finally {
 			try {
 				bw.close();
@@ -151,6 +159,6 @@ public class IOMananger {
 		}
 	}
 	public static void main(String[]args) {
-		
+		DealwithRunLog("2_LoginWeb189_Chrome");
 	}
 }

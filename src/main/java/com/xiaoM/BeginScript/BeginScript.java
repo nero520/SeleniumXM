@@ -17,9 +17,10 @@ public class BeginScript{
 
 	@Test(dataProvider = "TestCases")
 	public void runCase(String ID,String Description,String CaseName,String BrowserName,String Version) throws Exception{
-		String BrowserVersion = Version==null||Version.isEmpty()?BrowserName+"_"+ID:BrowserName+"("+Version+")_"+ID;
-	    log.info(BrowserVersion + ": "+ Description);
-		TestListener.BrowserNamelist.add(BrowserVersion);
+		String BrowserVersion = Version.equals("")||Version.isEmpty()?BrowserName:BrowserName+"("+Version+")";
+		String TestCategory = ID+"_"+ CaseName +"_"+ BrowserVersion;
+		log.info(TestCategory + " "+ Description);
+		TestListener.BrowserVersion.add(TestCategory);
 		Run test = new Run();
 		test.runCase(ID,BrowserName,Version,CaseName);
 	}
