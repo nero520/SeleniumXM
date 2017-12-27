@@ -11,5 +11,5 @@
 ### 支持多浏览器并行
 * 通过修改工程目录下的 StartTest.xml 文件中的 data-provider-thread-count 参数即可实现多浏览器并行
 # 测试报告
-测试报告使用 Extentreports 生成,加入了每个测试用例的运行日志、失败截图、异常信息等，并更加浏览器进行分类展示，更多扩展：[Extentreports 官网](http://extentreports.com/)
+测试报告使用 Extentreports 生成,加入了每个测试用例的运行日志、失败截图、异常信息等，并增加根据浏览器分类展示，更多扩展：[Extentreports 官网](http://extentreports.com/)
 ![测试报告](https://github.com/xiaoMGitHub/home/blob/master/picture/SeleniumReport.png)
