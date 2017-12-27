@@ -119,7 +119,7 @@ public class IOMananger {
 		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd(HH.mm.ss)");
 		String date = dateFormat.format(System.currentTimeMillis());
-		String logDriverPath  = logPath +"/"+ TestCategory+"-"+date+".log";
+		String logDriverPath  = logPath +"/"+ TestCategory+"_"+date+".log";
 		StringBuilder sb = new StringBuilder();
 		for(String logDriver:BrowserLog){
 			if(logDriver.contains(TestCategory)){
@@ -131,9 +131,8 @@ public class IOMananger {
 	}
 	/**
 	 * 写入数据到txt文本中
-	 * @param conent
 	 */
-	public static void saveToFile(String Path, String conent) {
+	public static void saveToFile(String Path, String Conent) {
 		BufferedWriter bw = null;
 		try {
 			/**
@@ -143,7 +142,7 @@ public class IOMananger {
 			FileOutputStream fo = new FileOutputStream(Path, true);
 			OutputStreamWriter ow = new OutputStreamWriter(fo);
 			bw = new BufferedWriter(ow);
-			bw.append(conent);
+			bw.append(Conent);
 			bw.newLine();
 			bw.flush();
 			bw.close();

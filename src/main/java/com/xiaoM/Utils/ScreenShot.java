@@ -41,11 +41,11 @@ public class ScreenShot{
 		if (!dir.exists()){
 			dir.mkdirs();
 		}
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd（HH.mm.ss）");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd(HH.mm.ss)");
 		String date = dateFormat.format(new Date());
-		String path = "./snapshot/"+ screenName+ "-"+date+".jpg";
+		String path = "./snapshot/"+ screenName+ "_"+date+".jpg";
 		TestListener.screenMessageList.put(screenName,path);
-		String screenPath = dir.getAbsolutePath().concat("\\")+ screenName+ "-"+date+".jpg";
+		String screenPath = dir.getAbsolutePath().concat("\\")+ screenName+ "_"+date+".jpg";
 		takeScreenshot(screenPath);
 	}
 

@@ -20,7 +20,7 @@ public class BeginScript{
 		String BrowserVersion = Version.equals("")||Version.isEmpty()?BrowserName:BrowserName+"("+Version+")";
 		String TestCategory = ID+"_"+ CaseName +"_"+ BrowserVersion;
 		log.info(TestCategory + " "+ Description);
-		TestListener.BrowserVersion.add(TestCategory);
+		TestListener.Category.add(TestCategory);
 		Run test = new Run();
 		test.runCase(ID,BrowserName,Version,CaseName);
 	}

@@ -35,7 +35,7 @@ public class Run {
                             throw new Exception(TestCategory + " 返回值为：false");
                         }
                         log.info(TestCategory + " 返回值:" + result);
-                        log.info(TestCategory + " --------------------------------------");
+                        log.info(TestCategory + " -----------------------------------");
                     }
                 }
                 log.info(TestCategory +"  测试用例:"+ CaseName +"---End");
@@ -47,7 +47,7 @@ public class Run {
                 screenShot.setScreenName(TestCategory);
                 screenShot.takeScreenshot();
                 log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-                log.error(TestCategory +" --------------------------------------");
+                log.error(TestCategory +" -----------------------------------");
                 long EndTime = System.currentTimeMillis();
                 TestListener.RuntimeStart.put(TestCategory,StartTime);
                 TestListener.RuntimeEnd.put(TestCategory,EndTime);
@@ -60,7 +60,7 @@ public class Run {
         }else{
             log.error("该测试用例:"+ CaseName +"在 "+TestListener.TestCase+".xlsx 中没有对应的命名的 sheet");
             log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-            log.error(TestCategory +" --------------------------------------");
+            log.error(TestCategory +" -----------------------------------");
             throw new Exception("该测试用例:"+ CaseName +"在 "+TestListener.TestCase+".xlsx 中没有对应的命名的 sheet");
         }
     }

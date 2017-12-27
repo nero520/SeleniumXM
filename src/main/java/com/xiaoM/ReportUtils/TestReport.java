@@ -29,8 +29,8 @@ public class TestReport implements IReporter {
 
 	@Override
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
-		for(int i = 0; i<TestListener.BrowserVersion.size(); i++){ //处理日志文件
-			IOMananger.DealwithRunLog(TestListener.BrowserVersion.get(i));
+		for(int i = 0; i<TestListener.Category.size(); i++){ //处理日志文件
+			IOMananger.DealwithRunLog(TestListener.Category.get(i));
 		}
 		init(TestListener.TestCase);//html文件配置
 		for (ISuite suite : suites) {
@@ -76,31 +76,31 @@ public class TestReport implements IReporter {
 				ExtentTest test = extent.createTest(TestCategory);
 				test.assignCategory(BrowserName);//根据设备分类
 				switch (result.getStatus()) {
-					case 1://成功用例s
+					case 1://成功用例
 						test.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(TestCategory)));
 						test.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(TestCategory)));
 						test.log(status, "Test " + status.toString().toLowerCase() + "ed");
 						test.log(status,TestListener.logList.get(TestCategory));//测试日志
-
 						break;
 					case 2://失败用例
 						if(TestListener.screenMessageList.containsKey(TestCategory)){
-							test.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(TestCategory)));
-							test.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(TestCategory)));
 							try {
 								test.fail("报错截图：", MediaEntityBuilder.createScreenCaptureFromPath(TestListener.screenMessageList.get(TestCategory)).build());
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
+							test.getModel().setStartTime(getTime(TestListener.RuntimeStart.get(TestCategory)));
+							test.getModel().setEndTime(getTime(TestListener.RuntimeEnd.get(TestCategory)));
 							test.log(status, TestListener.failMessageList.get(TestCategory));  //添加自定义报错
 							test.log(status,TestListener.logList.get(TestCategory));//测试日志
 							test.log(status, TestListener.failThrowable.get(TestCategory)); //testng捕抓报错
-							break;
 						}else{
+							test.getModel().setStartTime(getTime(result.getStartMillis()));
+							test.getModel().setEndTime(getTime(result.getEndMillis()));
 							test.log(status,TestListener.logList.get(TestCategory));//测试日志
 							test.log(status,TestListener.failThrowable.get(TestCategory)); //testng捕抓报错
-							break;
 						}
+						break;
 				}
 			}
 		}

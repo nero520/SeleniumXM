@@ -14,12 +14,12 @@ public class TestListener  extends TestListenerAdapter{
 
 	public static String[][] RunCase;//执行测试case
 	public static Map<String, String> screenMessageList = new HashMap<String, String>();
-	public static Map<String, String> failMessageList = new HashMap<String, String>();
+	public static Map<String, String> failMessageList = new HashMap<String,String>();
 	public static Map<String, String> logList = new HashMap<String, String>();
 	public static Map<String, Throwable> failThrowable = new HashMap<String, Throwable>();
 	public static Map<String, Long> RuntimeStart = new HashMap<String, Long>();
 	public static Map<String, Long> RuntimeEnd = new HashMap<String, Long>();
-	public static List<String> BrowserVersion = new ArrayList<String>();
+	public static List<String> Category = new ArrayList<String>();
 	public static String Selenium_Gird_Address;
 	public static String OS;
 	public static String ProjectPath;//工程路径

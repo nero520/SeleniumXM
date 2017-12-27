@@ -16,7 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class BaseDriver {
-	Log log= new Log(this.getClass());
+	private Log log= new Log(this.getClass());
 	final private static String url = TestListener.Selenium_Gird_Address;
 
 	public  WebDriver setUpWebDriver(String ID,String BrowserName, String Version, String CaseName) throws Exception {
@@ -95,7 +95,7 @@ public class BaseDriver {
 					case "MAC":
 						log.error(TestCategory +" 非 Windows 系统不支持 IE 浏览器自动化");
 						log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-						log.error(TestCategory +" --------------------------------------");
+						log.error(TestCategory +" -----------------------------------");
 						throw new Exception("非 Windows 系统不支持 IE 浏览器自动化");
 					case "WINDOWS":
 						System.setProperty("webdriver.ie.driver", "baseDriver/WIN/IEDriverServer.exe");
@@ -103,7 +103,7 @@ public class BaseDriver {
 					case "LINUX":
 						log.error(TestCategory +" 非 Windows 系统不支持 IE 浏览器自动化");
 						log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-						log.error(TestCategory +" --------------------------------------");
+						log.error(TestCategory +" -----------------------------------");
 						throw new Exception("非 Windows 系统不支持 IE 浏览器自动化");
 				}
 				driver = new InternetExplorerDriver();
@@ -125,7 +125,7 @@ public class BaseDriver {
 					case "MAC":
 						log.error(TestCategory +" 非 Windows 系统不支持 Edge 浏览器自动化");
 						log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-						log.error(TestCategory +" --------------------------------------");
+						log.error(TestCategory +" -----------------------------------");
 						throw new Exception("非 Windows 系统不支持 Edge 浏览器自动化");
 					case "WINDOWS":
 						if(System.getProperty("os.name").contains("10")){
@@ -133,14 +133,14 @@ public class BaseDriver {
 						}else{
 							log.error(TestCategory +" 非 Windows 10 系统不支持Edge浏览器自动化");
 							log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-							log.error(TestCategory +" --------------------------------------");
+							log.error(TestCategory +" -----------------------------------");
 							throw new Exception("非 Windows 10 系统不支持Edge浏览器自动化");
 						}
 						break;
 					case "LINUX":
 						log.error(TestCategory +" 非 Windows 系统不支持 Edge 浏览器自动化");
 						log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-						log.error(TestCategory +" --------------------------------------");
+						log.error(TestCategory +" -----------------------------------");
 						throw new Exception("非 Windows 系统不支持 Edge 浏览器自动化");
 				}
 				driver = new EdgeDriver();
@@ -162,12 +162,12 @@ public class BaseDriver {
 					case "WINDOWS":
 						log.error(TestCategory +" 非 OSX 系统不支持 Safari 浏览器自动化");
 						log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-						log.error(TestCategory +" --------------------------------------");
+						log.error(TestCategory +" -----------------------------------");
 						throw new Exception("非 OSX 系统不支持 Safari 浏览器自动化");
 					case "LINUX":
 						log.error(TestCategory +" 非 OSX 系统不支持 Safari 浏览器自动化");
 						log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-						log.error(TestCategory +" --------------------------------------");
+						log.error(TestCategory +" -----------------------------------");
 						throw new Exception("非 OSX 系统不支持 Safari 浏览器自动化");
 				}
 			/*
@@ -182,14 +182,14 @@ public class BaseDriver {
 			if(Browser_Path.isEmpty()||Browser_Path.equals("")){
 				log.error(TestCategory +" 请在 config.properties 中配置 BROWSER_PATH 的值");
 				log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-				log.error(TestCategory +" --------------------------------------");
+				log.error(TestCategory +" -----------------------------------");
 				throw new Exception("请在 config.properties 中配置 BROWSER_PATH 的值");
 			}else if(!Browser_Path.isEmpty()){
 				File filePath = new File(Browser_Path);
 				if (!filePath.exists()){
 					log.error(TestCategory +" 其他浏览器的安装路径不存在，请确认正确："+ Browser_Path);
 					log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-					log.error(TestCategory +" --------------------------------------");
+					log.error(TestCategory +" -----------------------------------");
 					throw new Exception("其他浏览器的安装路径不存在，请确认正确："+ Browser_Path);
 				}
 			}
@@ -201,7 +201,7 @@ public class BaseDriver {
 		default:
 			log.error(TestCategory +" 指定执行的浏览器无法识别，请确认正确");
 			log.error(TestCategory +" 测试用例:"+ CaseName +"---End");
-			log.error(TestCategory +" --------------------------------------");
+			log.error(TestCategory +" -----------------------------------");
 			throw new Exception("指定执行的浏览器无法识别，请确认正确");
 		}
 		return driver;
