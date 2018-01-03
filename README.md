@@ -8,6 +8,7 @@
 ### 支持 Selenium Grid集群
 * 只需修改工程目录下的 config.properties 中的 SELENIUM_GRID 和 SELENIUM_GRID_ADDRESS 参数即可实现快速部署
 * 推荐结合 Docker 使用，[Docker 在 WebUI 自动化测试中的应用](https://testerhome.com/topics/8450)
+![描述](https://github.com/xiaoMGitHub/home/blob/master/picture/SeleniumXM_2.png)
 ### 支持多浏览器并行
 * 通过修改工程目录下的 StartTest.xml 文件中的 data-provider-thread-count 参数即可实现多浏览器并行
 # 测试报告
